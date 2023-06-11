@@ -5,12 +5,10 @@ from googleapiclient import discovery
 class Channel:
     """Класс для ютуб-канала"""
     DEVELOPER_KEY ="AIzaSyBl82uN0RmBB8DDeThFJQLrc9Aa6zYGQQE"
-    api_service_name = "youtube"
-    api_version = "v3"
 
     def __init__(self, channel_id: str) -> None:
         """Экземпляр инициализируется id канала. Дальше все данные будут подтягиваться по API."""
-        self.youtube = discovery.build(self.api_service_name, self.api_version, developerKey=self.DEVELOPER_KEY)
+        self.youtube = discovery.build("youtube", "v3", developerKey=self.DEVELOPER_KEY)
         self.__channel_id = channel_id
         self.channel = self.youtube.channels().list(id=self.__channel_id, part='snippet,statistics').execute()
         self.title = self.channel['items'][0]['snippet']['title']
@@ -20,6 +18,38 @@ class Channel:
         self.video_count = self.channel['items'][0]['statistics']['videoCount']
         self.total_count_views = self.channel['items'][0]['statistics']['viewCount']
 
+    def __str__(self):
+        """Возвращает Заголовок канала с его ссылкой"""
+        return f'{self.title} ({self.url})'
+
+    def __add__(self, other):
+        """ Возвращает True или False при сложении экземпляров класса"""
+        return int(self.count_subscribers) + int(other.count_subscribers)
+
+    def __sub__(self, other):
+        """ Возвращает True или False при вычетании экземпляров класса"""
+        return int(self.count_subscribers) - int(other.count_subscribers)
+
+    def __gt__(self, other):
+        """ Возвращает True или False при сравнении (>) экземпляров класса"""
+        return int(self.count_subscribers) > int(other.count_subscribers)
+
+    def __ge__(self, other):
+        """ Возвращает True или False при сравнении (>=) экземпляров класса"""
+        return int(self.count_subscribers) >= int(other.count_subscribers)
+
+    def __lt__(self, other):
+        """ Возвращает True или False при сравнении (<) экземпляров класса"""
+        return int(self.count_subscribers) < int(other.count_subscribers)
+
+    def __le__(self, other):
+        """ Возвращает True или False при сравнении (<=) экземпляров класса"""
+        return int(self.count_subscribers) <= int(other.count_subscribers)
+
+    def __eq__(self, other):
+        """ Возвращает True или False при сравнении (==) экземпляров класса"""
+        return int(self.count_subscribers) == int(other.count_subscribers)
+
     def print_info(self):
         """Выводит словарь в json-подобном удобном формате с отступами"""
         dict_to_print = (json.dumps(self.channel, indent=2, ensure_ascii=False))
@@ -27,12 +57,17 @@ class Channel:
 
     @property
     def channel_id(self):
-        return self.__channel_id
+        return self.__channel_id\
+
+
+    @channel_id.setter
+    def channel_id(self, value):
+        self._channel_id = value
 
     @classmethod
     def get_service(cls):
         """Kласс-метод, возвращающий объект для работы с YouTube API"""
-        cls.youtube = discovery.build(cls.api_service_name, cls.api_version, developerKey=cls.DEVELOPER_KEY)
+        cls.youtube = discovery.build("youtube", "v3", developerKey=cls.DEVELOPER_KEY)
         return cls.youtube
 
     def to_json(self, file):
@@ -49,7 +84,5 @@ class Channel:
             }
             json.dump(data, f, indent='\t')
 
-    @channel_id.setter
-    def channel_id(self, value):
-        self._channel_id = value
+
 
