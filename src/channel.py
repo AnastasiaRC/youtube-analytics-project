@@ -57,7 +57,7 @@ class Channel:
 
     @property
     def channel_id(self):
-        return self.__channel_id\
+        return self.__channel_id
 
 
     @channel_id.setter
