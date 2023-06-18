@@ -4,7 +4,7 @@ from googleapiclient import discovery
 
 class Channel:
     """Класс для ютуб-канала"""
-    DEVELOPER_KEY ="AIzaSyBl82uN0RmBB8DDeThFJQLrc9Aa6zYGQQE"
+    DEVELOPER_KEY = "AIzaSyBl82uN0RmBB8DDeThFJQLrc9Aa6zYGQQE"
 
     def __init__(self, channel_id: str) -> None:
         """Экземпляр инициализируется id канала. Дальше все данные будут подтягиваться по API."""
@@ -57,8 +57,7 @@ class Channel:
 
     @property
     def channel_id(self):
-        return self.__channel_id\
-
+        return self.__channel_id
 
     @channel_id.setter
     def channel_id(self, value):
@@ -83,6 +82,4 @@ class Channel:
                 'channel_id': self.__channel_id
             }
             json.dump(data, f, indent='\t')
-
-
 
