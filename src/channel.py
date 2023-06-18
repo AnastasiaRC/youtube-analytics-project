@@ -59,9 +59,10 @@ class Channel:
     def channel_id(self):
         return self.__channel_id
 
+
     @channel_id.setter
     def channel_id(self, value):
-        self._channel_id = value
+        self.__channel_id = value
 
     @classmethod
     def get_service(cls):
@@ -82,4 +83,6 @@ class Channel:
                 'channel_id': self.__channel_id
             }
             json.dump(data, f, indent='\t')
+
+
 
