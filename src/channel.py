@@ -4,7 +4,7 @@ from googleapiclient import discovery
 
 class Channel:
     """Класс для ютуб-канала"""
-    DEVELOPER_KEY ="AIzaSyBl82uN0RmBB8DDeThFJQLrc9Aa6zYGQQE"
+    DEVELOPER_KEY = "AIzaSyBl82uN0RmBB8DDeThFJQLrc9Aa6zYGQQE"
 
     def __init__(self, channel_id: str) -> None:
         """Экземпляр инициализируется id канала. Дальше все данные будут подтягиваться по API."""
@@ -62,7 +62,7 @@ class Channel:
 
     @channel_id.setter
     def channel_id(self, value):
-        self._channel_id = value
+        self.__channel_id = value
 
     @classmethod
     def get_service(cls):
